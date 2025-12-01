@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Enviar Paquete</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Estilos compartidos -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/paquete.css' %}">
+
+</head>
+<body>
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">📦 Enviar Paquete</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <a href="{% url 'home_cliente' %}" class="icon-link">
+                        <i class="fas fa-house"></i>
+                        <span class="icon-text">Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'destiny' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'enviar_paquete' %}" class="icon-link">
+                        <i class="fas fa-box"></i>
+                        <span class="icon-text">Paquetes</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s">
+                    <a href="{% url 'ver_carrito' %}" class="icon-link">
+                        <i class="fas fa-cart-shopping"></i>
+                        <span class="icon-text">Carrito</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-5s">
+                    <a href="{% url 'logout' %}" class="icon-link">
+                        <i class="fas fa-door-closed"></i>
+                        <span class="icon-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="formulario-registro animate__animated animate__fadeIn">
+        <div class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="{{ form.tipo.id_for_label }}">Tipo de Paquete</label>
+                    {{ form.tipo }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.peso.id_for_label }}">Peso</label>
+                    {{ form.peso }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+                    {{ form.descripcion }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.destino.id_for_label }}">Destino</label>
+                    {{ form.destino }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.receptor.id_for_label }}">Receptor</label>
+                    {{ form.receptor }}
+                </div>
+
+                <div class="btn-container">
+                    <a href="{% url 'home' %}" class="btn secondary"><i class="fas fa-arrow-left"></i> Volver</a>
+                    <button type="submit" class="btn primary">
+                        <i class="fa-sharp-duotone fa-thin fa-paper-plane"></i> Enviar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer-login animate__animated animate__fadeInUp animate__delay-2s">
+        <p>&copy; 2025 Sistema de Gestión. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Usuario</title>
+    <link rel="stylesheet" href="{% static 'users/css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+</head>
+<body>
+
+<header class="menu animate__animated animate__fadeInDown animate__delay-1s">
+    <h1 class="animate__animated animate__bounceInDown">Agencia de Viajes</h1>
+    <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-2s" alt="Logo">
+    
+    <nav class="animate__animated animate__fadeIn animate__delay-3s">
+        <ul>
+            <li class="animate__animated animate__fadeInLeft animate__delay-4s">
+                <a href="{% url 'home' %}">Inicio</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<section class="formulario-registro"> <!-- Usamos la misma clase para aplicar el mismo estilo -->
+    <div class="form-container fade-in-form animate__animated animate__fadeIn">
+
+        <h2 class="animate__animated animate__zoomIn">Editar Usuario</h2>
+
+        <form method="POST" class="animate__animated animate__fadeInUp" id="form-editar">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="error-messages">
+                    {% for error in form.non_field_errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Nombre -->
+            <label for="{{ form.nombre.id_for_label }}">Nombre:</label>
+            {{ form.nombre }}
+            <span class="error-message">{{ form.nombre.errors }}</span>
+
+            <!-- Email -->
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+            <span class="error-message">{{ form.email.errors }}</span>
+
+            <!-- Teléfono -->
+            <label for="{{ form.telefono.id_for_label }}">Teléfono:</label>
+            {{ form.telefono }}
+            <span class="error-message">{{ form.telefono.errors }}</span>
+
+            <!-- Rol -->
+            <label for="{{ form.rol.id_for_label }}">Rol:</label>
+            {{ form.rol }}
+            <span class="error-message">{{ form.rol.errors }}</span>
+
+            <!-- Contraseña -->
+            <label for="{{ form.password.id_for_label }}">Contraseña:</label>
+            {{ form.password }}
+            <span class="error-message">{{ form.password.errors }}</span>
+
+            <button type="submit" class="btn animate__animated animate__bounceIn animate__delay-1s">Guardar Cambios</button>
+            <a href="{% url 'list_users' %}" class="btn cancel animate__animated animate__fadeInRight animate__delay-1s">Cancelar</a>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>

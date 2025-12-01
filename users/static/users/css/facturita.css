@@ -1,0 +1,100 @@
+/* Estilos generales */
+.factura-container {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Encabezado */
+.factura-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #c00;
+    padding-bottom: 20px;
+}
+
+.logo-empresa {
+    text-align: left;
+}
+
+.logo-empresa h1 {
+    color: #c00;
+    margin: 0;
+    font-size: 24px;
+}
+
+.datos-empresa {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Sección de datos */
+.datos-factura {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.datos-cliente, .datos-envio {
+    width: 48%;
+}
+
+.datos-cliente h3, .datos-envio h3 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    color: #c00;
+}
+
+/* Tabla de productos */
+.tabla-productos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.tabla-productos th {
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+.tabla-productos td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Totales */
+.totales {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.totales table {
+    float: right;
+    border-collapse: collapse;
+}
+
+.totales td {
+    padding: 8px 15px;
+    text-align: right;
+}
+
+.total-general {
+    font-weight: bold;
+    font-size: 18px;
+    border-top: 2px solid #c00;
+}
+
+/* Pie de página */
+.factura-footer {
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+    font-size: 14px;
+    color: #555;
+}

@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuarios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/users.css' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <script src="{% static 'users/js/confirm_delete_user.js' %}" defer></script>
+
+      
+</head>
+<body class="animate__animated animate__fadeIn">
+
+    <!-- Header -->
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Gestión de Usuarios</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <a href="{% url 'home_admin' %}" class="icon-link">
+                        <i class="fas fa-house"></i>
+                        <span class="icon-text">Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'list_destinos' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Gestionar Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'listar_horarios' %}" class="icon-link">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span class="icon-text">Gestionar Horarios</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s">
+                    <a href="{% url 'list_users' %}" class="icon-link">
+                        <i class="fa-solid fa-users-gear"></i>
+                        <span class="icon-text">Manejo de Usuarios</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-5s">
+                    <a href="{% url 'logout' %}" class="icon-link">
+                        <i class="fas fa-door-closed"></i>
+                        <span class="icon-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="contenido animate__animated animate__fadeInUp">
+        <h2>Lista de Usuarios</h2>
+
+        <!-- Filtro de búsqueda -->
+        <form method="get" style="text-align:center; margin-bottom: 20px;">
+            <input type="text" name="q" placeholder="Buscar por nombre, email, rol, etc." value="{{ query }}">
+            <select name="rol" style="margin-left: 10px;">
+                <option value="">Filtrar por rol</option>
+                <option value="cliente" {% if request.GET.rol == 'cliente' %}selected{% endif %}>Cliente</option>
+                <option value="admin" {% if request.GET.rol == 'admin' %}selected{% endif %}>Administrador</option>
+                <option value="empleado" {% if request.GET.rol == 'empleado' %}selected{% endif %}>Empleado</option>
+                <option value="aspirante" {% if request.GET.rol == 'aspirante' %}selected{% endif %}>Aspirante</option>
+            </select>
+            <button type="submit">Buscar</button>
+        </form>
+
+        <!-- Lista de usuarios -->
+        {% if usuarios %}
+        <div class="user-grid">
+            {% for usuario in usuarios %}
+                <div class="user-section">
+                    <div class="user-card">
+                        <div class="user-name">{{ usuario.nombre }}</div>
+                        <div class="user-email">
+                            <a href="mailto:{{ usuario.email }}">{{ usuario.email }}</a>
+                        </div>
+                        
+                        <!-- NUEVO: Cédula -->
+                        <div class="user-detail"><strong>Cédula:</strong> {{ usuario.cedula }}</div>
+                        
+                        <!-- NUEVO: Teléfono -->
+                        <div class="user-detail"><strong>Teléfono:</strong> {{ usuario.telefono }}</div>
+                    
+                        <!-- NUEVO: Último inicio de sesión -->
+                        <div class="user-detail"><strong>Último login:</strong> 
+                            {% if usuario.last_login %}
+                                {{ usuario.last_login|date:"d/m/Y H:i" }}
+                            {% else %}
+                                Nunca ha iniciado sesión
+                            {% endif %}
+                        </div>
+                    
+                        <div class="user-detail"><strong>Rol:</strong> {{ usuario.get_rol_display }}</div>
+                        {% if usuario.departamento %}
+                            <div class="user-detail"><strong>Departamento:</strong> {{ usuario.departamento }}</div>
+                        {% endif %}
+                        <div class="user-detail">
+                            <strong>Estado:</strong>
+                            {% if usuario.status == 'paused' %}
+                                <span class="status-paused">Pausado</span>
+                            {% elif usuario.status == 'vacation' %}
+                                <span class="status-vacation">Vacaciones</span>
+                            {% else %}
+                                <span class="status-active">Activo</span>
+                            {% endif %}
+                        </div>
+                    
+                        <!-- Acciones -->
+                        <div class="user-actions">
+                            <a href="{% url 'edit_user' usuario.id %}" class="btn-editar">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <form method="POST" action="{% url 'delete_user' usuario.id %}" class="delete-form" data-username="{{ usuario.nombre }}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-eliminar">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </div>                    
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <p class="mensaje-info">No se encontraron usuarios.</p>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer animate__animated animate__fadeInUp animate__delay-2s">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

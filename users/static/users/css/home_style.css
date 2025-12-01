@@ -1,0 +1,99 @@
+/* Estilos para la sección de bienvenida */
+.welcome-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    border-left: 4px solid #0d6efd;
+}
+
+/* Estilos para la tabla de usuarios */
+.user-table {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.user-table thead th {
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.user-table tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* Estilos para los botones de acción */
+.action-buttons {
+    white-space: nowrap;
+}
+
+.action-buttons .btn {
+    margin-left: 8px;
+    transition: all 0.2s ease;
+}
+
+.action-buttons .btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Estilos para los badges de rol */
+.badge.bg-primary {
+    background-color: #0d6efd !important;
+}
+
+.badge.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+/* Estilos para el mensaje cuando no hay usuarios */
+.text-muted.py-4 {
+    opacity: 0.7;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .action-buttons .btn {
+        margin-bottom: 5px;
+        display: inline-block;
+    }
+    
+    .welcome-section {
+        padding: 15px;
+    }
+}
+
+/* Efecto para los botones de acción */
+.btn-outline-primary {
+    border-color: #0d6efd;
+    color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Estilo para el botón de cerrar sesión */
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+    font-weight: 500;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    color: #212529;
+}

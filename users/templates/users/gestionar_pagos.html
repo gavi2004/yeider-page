@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Pagos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <style>
+        .pago-card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .aprobar {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .rechazar {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .comprobante-img {
+            max-width: 300px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body class="animate__animated animate__fadeIn">
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Gestión de Pagos</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul>
+                <li><a href="{% url 'home_admin' %}">Inicio</a></li>
+                <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenido animate__animated animate__fadeInUp">
+        <section class="gestion animate__animated animate__fadeInLeft">
+            <h2>Pagos pendientes</h2>
+
+            {% if pagos %}
+                {% for pago in pagos %}
+                    <div class="pago-card">
+                        <p><strong>Usuario:</strong> {{ pago.usuario.nombre }}</p>
+                        <p><strong>Monto:</strong> ${{ pago.monto }}</p>
+                        <p><strong>Método:</strong> {{ pago.get_metodo_display }}</p>
+                        <p><strong>Referencia:</strong> {{ pago.referencia }}</p>
+                        <p><strong>Número Tarjeta:</strong> {{ pago.numero_tarjeta }}</p>
+                        <p><strong>Fecha:</strong> {{ pago.fecha|date:"d/m/Y" }} - {{ pago.hora|time:"H:i" }}</p>
+                        {% if pago.comprobante %}
+                            <p><strong>Comprobante:</strong></p>
+                            <img src="{{ pago.comprobante.url }}" alt="Comprobante de pago" class="comprobante-img">
+                        {% endif %}
+
+                        <form method="POST" onsubmit="return confirmarAccion(this);" style="margin-top: 10px;">
+                            {% csrf_token %}
+                            <input type="hidden" name="pago_id" value="{{ pago.id }}">
+                            <button type="submit" name="accion" value="aprobar" class="btn aprobar">✅ Aprobar</button>
+                            <button type="submit" name="accion" value="rechazar" class="btn rechazar">❌ Rechazar</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No hay pagos pendientes por aprobar.</p>
+            {% endif %}
+
+            <a href="{% url 'home_admin' %}" class="btn" style="margin-top: 20px; background-color: #555; color: white;">← Volver al inicio</a>
+        </section>
+    </main>
+
+    <footer class="animate__animated animate__fadeInUp animate__delay-2s footer">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="{% static 'users/js/home.js' %}"></script>
+    <script>
+        function confirmarAccion(form) {
+            const accion = form.querySelector('button[type="submit"]:focus')?.value;
+            if (accion === 'aprobar') {
+                return confirm('¿Estás seguro de que quieres aprobar este pago?');
+            } else if (accion === 'rechazar') {
+                return confirm('¿Estás seguro de que quieres rechazar este pago?');
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

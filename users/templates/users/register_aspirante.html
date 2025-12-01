@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Postulacion </title>
+    <link rel="stylesheet" href="{% static 'users/css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+</head>
+<body>
+
+    <!-- Navbar con animación -->
+    <header class="menu animate__animated animate__fadeInDown animate__delay-1s">
+        <h1 class="animate__animated animate__bounceInDown">Agencia de Viajes</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-2s" alt="Logo">
+        <nav class="animate__animated animate__fadeIn animate__delay-3s">
+            <ul>
+                <li class="animate__animated animate__fadeInLeft animate__delay-4s">
+                    <a href="{% url 'login' %}">Inicio</a>
+                </li>
+                <li class="animate__animated animate__fadeInLeft animate__delay-4s">
+                    <a href="{% url 'index' %}">Index</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="formulario-registro">
+        <div class="form-container fade-in-form animate__animated animate__fadeIn">
+            <h2 class="animate__animated animate__zoomIn">Postulate</h2>
+
+            <form method="POST" class="animate__animated animate__fadeInUp" id="form-usuario">
+                {% csrf_token %}
+
+                <!-- Mostrar errores globales -->
+                {% if form.non_field_errors %}
+                    <div class="error-messages">
+                        {% for error in form.non_field_errors %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Campos del formulario -->
+                <label for="{{ form.cedula.id_for_label }}">Cédula:</label>
+                <input type="number" name="cedula" id="{{ form.cedula.id_for_label }}" value="{{ form.cedula.value }}" required>
+                <span id="error_cedula" class="error-message"></span> <!-- Contenedor para el error -->
+
+                <label for="{{ form.telefono.id_for_label }}">Teléfono:</label>
+                <input type="number" name="telefono" id="{{ form.telefono.id_for_label }}" value="{{ form.telefono.value }}" required>
+                <span id="error_telefono" class="error-message"></span> <!-- Contenedor para el error -->
+
+                <label for="{{ form.nombre.id_for_label }}">Nombre:</label>
+                {{ form.nombre }}
+                <span id="error_nombre" class="error-message"></span> <!-- Contenedor para el error -->
+
+                <label for="{{ form.email.id_for_label }}">Email:</label>
+                {{ form.email }}
+                <span id="error_email" class="error-message"></span> <!-- Contenedor para el error -->
+
+                <label for="{{ form.password.id_for_label }}">Contraseña:</label>
+                {{ form.password }}
+                <span id="error_password" class="error-message"></span> <!-- Contenedor para el error -->
+
+                <label for="{{ form.confirmar_password.id_for_label }}">Confirmar Contraseña:</label>
+                {{ form.confirmar_password }}
+                <span id="error_confirmar_password" class="error-message"></span> <!-- Contenedor para el error -->
+            
+                <button type="submit" class="btn animate__animated animate__bounceIn animate__delay-1s">Registrar</button>
+            </form>
+            
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+    <script type="text/javascript">
+        var loginUrl = "{% url 'login' %}"; 
+    </script>
+
+    <script src="{% static 'users/js/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static 'users/js/aspirante.js' %}"></script>
+
+    <script id="formErrors" type="application/json">
+        {{ form.errors|json_script:"formErrors" }}
+    </script>
+
+    <script src="{% static 'js/aspirante.js' %}"></script>
+</body>
+</html>

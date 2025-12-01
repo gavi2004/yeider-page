@@ -1,0 +1,167 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Ventas</title>
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/ventas.css' %}">
+</head>
+<body class="animate__animated animate__fadeIn">
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Panel Del Admin</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <a href="{% url 'home_empleado' %}" class="icon-link">
+                        <i class="fas fa-house"></i>
+                        <span class="icon-text">Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'list_destinos' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Gestionar Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'listar_horarios' %}" class="icon-link">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span class="icon-text">Gestionar Horarios</span>
+                    </a>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s">
+                        <a href="{% url 'list_users' %}" class="icon-link">
+                            <i class="fa-solid fa-users-gear"></i>
+                            <span class="icon-text">Manejo de Usuarios</span>
+                        </a>
+                </li>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-5s">
+                    <a href="{% url 'logout' %}" class="icon-link">
+                        <i class="fas fa-door-closed"></i>
+                        <span class="icon-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenido animate__animated animate__fadeInUp">
+        <h2>Historial de Ventas</h2>
+        
+      
+
+        <form method="get" style="text-align:center; margin-bottom: 20px;">
+            <input type="text" name="q" placeholder="Buscar por fecha, destino, tipo, etc." value="{{ query }}">
+            <select name="tipo" style="margin-left: 10px;">
+                <option value="">Filtrar por tipo</option>
+                <option value="boletos" {% if request.GET.tipo == 'boletos' %}selected{% endif %}>Boletos</option>
+                <option value="paquetes" {% if request.GET.tipo == 'paquetes' %}selected{% endif %}>Paquetes</option>
+                <option value="mixta" {% if request.GET.tipo == 'mixta' %}selected{% endif %}>Mixta</option>
+            </select>
+            <button type="submit">Buscar</button>
+        </form>
+        
+
+        {% if ventas %}
+
+
+        <div class="resumen-container animate__animated animate__fadeInDown" style="margin-top: 30px; display: flex; justify-content: space-between; gap: 30px;">
+
+            <!-- Resumen General -->
+            <div class="resumen-ventas" style="flex: 1;">
+                <h3>Resumen General de Ventas</h3>
+                <p><strong>Total de Ventas:</strong> {{ ventas_total_count }}</p>
+                <p><strong>Boletos vendidos:</strong> {{ total_boletos_general }}</p>
+                <p><strong>Paquetes vendidos:</strong> {{ total_paquetes_general }}</p>
+                <p><strong>Ventas Mixtas:</strong> {{ ventas_mixtas_general }}</p>
+            </div>
+        
+            <!-- Línea divisoria -->
+            <div style="width: 1px; background-color: #ccc; margin: 0 15px;"></div>
+        
+            <!-- Resumen Página Actual -->
+            <div class="resumen-ventas" style="flex: 1;">
+                <h3>Resumen de Ventas (Página Actual)</h3>
+                <p><strong>Total de Ventas:</strong> {{ ventas|length }}</p>
+                <p><strong>Boletos vendidos:</strong> {{ total_boletos }}</p>
+                <p><strong>Paquetes vendidos:</strong> {{ total_paquetes }}</p>
+                <p><strong>Ventas Mixtas:</strong> {{ ventas_mixtas }}</p>
+            </div>
+        
+        </div>
+        
+
+            <div class="tabla-contenedor animate__animated animate__fadeIn">
+                <table class="tabla">
+                    <thead>
+                        <tr>
+                            <th>Fecha de Compra</th>
+                            <th>Destino</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                            <th>Total Pagado</th>
+                            <th>Hora de Compra</th>
+                            <th>Usuario</th>
+                            <th>Cédula</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for venta in ventas %}
+                            <tr>
+                                <td>{{ venta.fecha_compra }}</td>
+                                <td>{{ venta.destino.nombre }}</td>
+                                <td>
+                                    {% if venta.boletos.count > 0 and venta.paquetes.count > 0 %}
+                                        Mixta
+                                    {% elif venta.boletos.count > 0 %}
+                                        Boletos
+                                    {% elif venta.paquetes.count > 0 %}
+                                        Paquetes
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </td>
+                                <td>{{ venta.cantidad }}</td>
+                                <td>{{ venta.total_pagado }} Bs</td>
+                                <td>{{ venta.hora }}</td>
+                                <td>{{ venta.usuario.nombre }}</td>
+                                <td>{{ venta.usuario.cedula }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+           <!-- Paginación -->
+        <div style="text-align:center; margin-top: 20px;">
+            {% if ventas.has_previous %}
+                <a href="?page={{ ventas.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if tipo %}&tipo={{ tipo }}{% endif %}">Anterior</a>
+            {% endif %}
+
+            <span>Página {{ ventas.number }} de {{ ventas.paginator.num_pages }}</span>
+
+            {% if ventas.has_next %}
+                <a href="?page={{ ventas.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if tipo %}&tipo={{ tipo }}{% endif %}">Siguiente</a>
+            {% endif %}
+        </div>
+
+
+        {% else %}
+            <p class="mensaje-info">No se encontraron ventas.</p>
+        {% endif %}
+    </main>
+
+    <footer class="footer animate__animated animate__fadeInUp animate__delay-2s">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="{% static 'users/js/home.js' %}"></script>
+</body>
+</html>

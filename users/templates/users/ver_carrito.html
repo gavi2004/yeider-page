@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+</head>
+<body>
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Bienvenido a la Agencia de Viajes</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <a href="{% url 'home_cliente' %}" class="icon-link">
+                        <i class="fas fa-house"></i>
+                        <span class="icon-text">Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'destiny' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'enviar_paquete' %}" class="icon-link">
+                        <i class="fas fa-box"></i>
+                        <span class="icon-text">Paquetes</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s">
+                    <a href="{% url 'ver_carrito' %}" class="icon-link">
+                        <i class="fas fa-cart-shopping"></i>
+                        <span class="icon-text">Carrito</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-5s">
+                    <a href="{% url 'logout' %}" class="icon-link">
+                        <i class="fas fa-door-closed"></i>
+                        <span class="icon-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+<main class="page-container">
+    <section class="formulario-registro fade-in">
+        <div class="form-container">
+            <h2 class="animate__animated animate__fadeIn">Resumen de tu Carrito</h2>
+
+            {% if carrito_items or paquetes %}
+                {% if carrito_items %}
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Destino</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in carrito_items %}
+                        <tr>
+                            <td>{{ item.destino.nombre }}</td>
+                            <td>{{ item.horario.fecha }}</td>
+                            <td>{{ item.horario.hora }}</td>
+                            <td>{{ item.cantidad }}</td>
+                            <td>${{ item.subtotal }}</td>
+                            <td>
+                                <form method="POST" action="{% url 'eliminar_boleto' item.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-delete" onclick="return confirm('¿Eliminar este ítem del carrito?')">🗑</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+                {% if paquetes %}
+                <h3 class="animate__animated animate__fadeInDown" style="margin-top: 40px;">Paquetes en el Carrito</h3>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Peso</th>
+                            <th>Precio</th>
+                            <th>Destino</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for paquete in paquetes %}
+                        <tr>
+                            <td>{{ paquete.tipo }}</td>
+                            <td>{{ paquete.descripcion }}</td>
+                            <td>{{ paquete.peso }} kg</td>
+                            <td>${{ paquete.precio_envio }}</td>
+                            <td>{{ paquete.destino.nombre }}</td>
+                            <td>
+                                <form method="POST" action="{% url 'eliminar_paquete' paquete.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-delete" onclick="return confirm('¿Eliminar este paquete del carrito?')">🗑</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+                <p class="total animate__animated animate__fadeInUp"><strong>Total:</strong> ${{ total }}</p>
+
+                <div class="acciones-carrito">
+                    <form method="POST" action="{% url 'realizar_pago' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Pagar</button>
+                    </form>
+                </div>
+            {% else %}
+                <p class="no-items animate__animated animate__fadeInUp">No hay boletos ni paquetes en el carrito.</p>
+            {% endif %}
+        </div>
+    </section>
+</main>
+
+<footer class="footer-login animate__animated animate__fadeInUp animate__delay-2s">
+    <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+    function confirmarCompra() {
+        return confirm("¿Estás seguro de que deseas confirmar esta compra?");
+    }
+    function confirmarVaciar() {
+        return confirm("¿Deseas vaciar todo el carrito?");
+    }
+</script>
+
+</body>
+</html>

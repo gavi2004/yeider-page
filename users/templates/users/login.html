@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="{% static 'users/css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/login.css' %}">
+    <script src="{% static 'users/js/sweetalert2.all.min.js' %}"></script>
+</head>
+<body class="animate__animated animate__fadeIn">
+    <div class="page-container">
+        <header class="menu animate__animated animate__fadeInDown animate__delay-1s">
+            <h1 class="animate__animated animate__bounceInDown">Agencia de Viajes</h1>
+            <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-2s" alt="Logo">
+            <nav class="animate__animated animate__fadeIn animate__delay-3s">
+                <ul>
+                    <li class="animate__animated animate__fadeInLeft animate__delay-4s"><a href="{% url 'register' %}">Registro</a></li>
+                    <li class="animate__animated animate__fadeInLeft animate__delay-4s"><a href="{% url 'index' %}">Index</a></li> 
+                </ul>
+            </nav>
+        </header>
+
+        <main class="login-container">
+            <section class="form-wrapper">
+                <div class="formulario-registro">
+                    <div class="form-container animate__animated animate__fadeInUp">
+                        <h2 class="animate__animated animate__zoomIn">Iniciar Sesión</h2>
+
+                        <form method="POST" id="loginForm" action="{% url 'login' %}">
+                            {% csrf_token %}
+
+                            <!-- No mostramos errores aquí -->
+                            <div>
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                            </div>
+
+                            <div>
+                                {{ form.password.label_tag }}
+                                {{ form.password }}
+                            </div>
+
+                            <button type="submit" class="btn animate__animated animate__bounceIn">Ingresar</button>
+                        </form>
+
+                        <p class="animate__animated animate__fadeIn">
+                            ¿No tienes una cuenta?
+                            <a href="{% url 'register' %}" class="btn animate__animated animate__pulse animate__delay-1s">Regístrate aquí</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer-login animate__animated animate__fadeInUp">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+
+    <script src="{% static 'users/js/login.js' %}"></script>
+</body>
+</html>

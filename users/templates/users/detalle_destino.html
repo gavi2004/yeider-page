@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Destino</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS del sistema -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+</head>
+<body>
+
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Detalles Sobre {{destino.nombre}}</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <a href="{% url 'home_cliente' %}" class="icon-link">
+                        <i class="fas fa-house"></i>
+                        <span class="icon-text">Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'destiny' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'enviar_paquete' %}" class="icon-link">
+                        <i class="fas fa-box"></i>
+                        <span class="icon-text">Paquetes</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s">
+                    <a href="{% url 'ver_carrito' %}" class="icon-link">
+                        <i class="fas fa-cart-shopping"></i>
+                        <span class="icon-text">Carrito</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-5s">
+                    <a href="{% url 'mis_boletos' %}" class="icon-link">
+                        <i class="fa-solid fa-ticket"></i>
+                        <span class="icon-text">Mis Boletos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-6s">
+                    <a href="{% url 'logout' %}" class="icon-link">
+                        <i class="fas fa-door-closed"></i>
+                        <span class="icon-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+<main class="page-container fade-in">
+    <section class="formulario-registro">
+        <div class="form-container animate__animated animate__fadeInUp">
+
+            <div class="imagen-y-descripcion">
+                {% if destino.imagen %}
+                    <img src="{{ destino.imagen.url }}" alt="Imagen de {{ destino.nombre }}" class="imagen-destino">
+                {% else %}
+                    <img src="{% static 'users/imagenes/default.jpg' %}" alt="Imagen por defecto" class="imagen-destino">
+                {% endif %}
+                
+                <p class="descripcion">{{ destino.descripcion }}</p>
+            </div>
+
+            {% if messages %}
+                <div class="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <h2 class="subtitulo">Reservar Boletos</h2>
+            <form method="POST">
+                {% csrf_token %}
+
+                <label for="cantidad">Cantidad de boletos:</label>
+                <input type="number" name="cantidad" id="cantidad" min="1" value="1" required>
+
+                <label for="tipo_boleto">Tipo de boleto:</label>
+                <select name="tipo_boleto" id="tipo_boleto" required>
+                    <option value="general">General</option>
+                    <option value="vip">VIP</option>
+                </select>
+
+                <label for="horario">Horario:</label>
+                <select name="horario" id="horario" required>
+                    {% for h in horarios %}
+                        <option value="{{ h.id }}">{{ h.fecha }} - {{ h.hora }}</option>
+                    {% endfor %}
+                </select>
+
+                <button class="btn" type="submit">Añadir al carrito</button>
+            </form>
+
+            <a class="btn" href="{% url 'destiny' %}">← Volver</a>
+        </div>
+    </section>
+</main>
+
+
+<footer class="footer-login animate__animated animate__fadeInUp animate__delay-2s">
+    <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>

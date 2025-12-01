@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>París, Francia</title>
+    <link rel="stylesheet" href="{% static 'users/css/destiny.css' %}">
+</head>
+<body>
+    <section class="contenido">
+        <h2>París, Francia</h2>
+        <div class="destino">
+            <img src="{% static 'users/imagenes/paris.jpg' %}" alt="París">
+            <h3>París, Francia</h3>
+            <p>La ciudad del amor y la luz.</p>
+        </div>
+        <div class="volver-home">
+            <a href="{% url 'home_cliente' %}">← Volver a Inicio</a>
+        </div>
+    </section>
+</body>
+</html>

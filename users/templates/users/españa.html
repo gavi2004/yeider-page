@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Madrid, España</title>
+    <link rel="stylesheet" href="{% static 'users/css/destiny.css' %}">
+</head>
+<body>
+    <section class="contenido">
+        <h2>Madrid, España</h2>
+        <div class="destino">
+            <img src="{% static 'users/imagenes/madrid.jpeg' %}" alt="Madrid">
+            <h3>Madrid, España</h3>
+            <p>Hostia, tío.</p>
+        </div>
+        <div class="volver-home">
+            <a href="{% url 'home_cliente' %}">← Volver a Inicio</a>
+        </div>
+    </section>
+</body>
+</html>

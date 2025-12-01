@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Factura #{{ venta.id }}</title>
+    <link rel="stylesheet" href="{% static 'users/css/facturita.css' %}">
+    <style>
+        .factura-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .factura-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+        }
+        .datos-factura {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .tabla-productos {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .tabla-productos th, .tabla-productos td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .tabla-productos th {
+            background-color: #f2f2f2;
+        }
+        .totales {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .totales table {
+            display: inline-block;
+        }
+        .totales td {
+            padding: 5px 15px;
+        }
+        .total-general {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .factura-footer {
+            margin-top: 40px;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+            font-size: 0.9em;
+        }
+        .icono-item {
+            margin-right: 5px;
+        }
+        .btn-descargar {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.btn-descargar:hover {
+    background-color: #45a049;
+}
+
+    </style>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 20px;">
+        <a class="btn-descargar" href="{% url 'factura_pdf' venta.id %}" download>📄 Descargar PDF</a>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a class="btn-descargar" href="{% url 'home_cliente'%}"> Index</a>
+    </div>
+    
+    
+    <div class="factura-container">
+        <!-- Encabezado -->
+        <div class="factura-header">
+            <div class="logo-empresa">
+                <h1>FACTURA</h1>
+                <div class="datos-empresa">
+                    <p>Peña Travel</p>
+                    <p>Barrio Obrero San Cristobal, Av Carabobo</p>
+                    <p>Tachira, Venezuela</p>
+                </div>
+            </div>
+            <div>
+                <p><strong>N° FACTURA:</strong> {{ venta.id }}</p>
+                <p><strong>FECHA:</strong> {{ venta.fecha_compra|date:"d/m/Y" }}</p>
+            </div>
+        </div>
+
+        <div class="datos-factura">
+            <div class="datos-cliente">
+                <h3>FACTURAR A</h3>
+                <p>{{ cliente.nombre }}</p>
+                <p>Cédula: {{ cliente.cedula }}</p>
+                <p>{{ cliente.email }}</p>
+            </div>
+        
+            {% if tipo_venta != 'boletos' and paquete %}
+                <div class="datos-envio">
+                    <h3>ENVIAR A</h3>
+                    <p>{{ paquete.receptor }}</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        
+
+        <!-- Tabla unificada de items -->
+        <table class="tabla-productos">
+            <thead>
+                <tr>
+                    <th>CANT.</th>
+                    <th>DESCRIPCIÓN</th>
+                    <th>PRECIO UNITARIO</th>
+                    <th>IMPORTE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.cantidad }}</td>
+                    <td>
+                        {% if item.tipo == 'boleto' %}
+                        <i class="fas fa-ticket-alt icono-item"></i>
+                        {% else %}
+                        <i class="fas fa-box icono-item"></i>
+                        {% endif %}
+                        {{ item.descripcion }}<br>
+                        <small>{{ item.detalle }}</small>
+                    </td>
+                    <td>${{ item.precio }}</td>
+                    <td>${{ item.precio }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Totales -->
+        <div class="totales">
+            <table>
+                <tr>
+                    <td>Subtotal:</td>
+                    <td>${{ total }}</td>
+                </tr>
+                <tr class="total-general">
+                    <td>TOTAL:</td>
+                    <td>${{ total }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Pie de página -->
+        <div class="factura-footer">
+            <p><strong>CONDICIONES Y FORMA DE PAGO</strong></p>
+            <p>El Pago Se Realizó Mediante Pago Movil</p>
+            <p>Banco de Venezuela | IBAN: VE1234567890123456789012</p>
+        </div>
+    </div>
+
+    
+</body>
+</html>

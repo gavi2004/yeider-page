@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionar Aspirantes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+</head>
+<body class="animate__animated animate__fadeIn">
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Gestión de Aspirantes</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul>
+                <li><a href="{% url 'home_admin' %}">Inicio</a></li>
+                <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenido animate__animated animate__fadeInUp">
+        <section class="gestion animate__animated animate__fadeInLeft">
+            <h2>Aspirantes Pendientes</h2>
+
+            {% if aspirantes %}
+                <table class="tabla-gestion">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>CI</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aspirante in aspirantes %}
+                        <tr>
+                            <td>{{ aspirante.nombre }}</td>
+                            <td>{{ aspirante.email }}</td>
+                            <td>{{ aspirante.CI }}</td>
+                            <td>
+                                <form method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="usuario_id" value="{{ aspirante.id }}">
+                                    <button type="submit" name="accion" value="aceptar" class="btn aprobar">✅ Aceptar</button>
+                                    <button type="submit" name="accion" value="rechazar" class="btn rechazar" onclick="return confirm('¿Estás seguro de que deseas rechazar a este aspirante?')">❌ Rechazar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No hay aspirantes pendientes.</p>
+            {% endif %}
+
+            <a href="{% url 'home_admin' %}" class="btn" style="margin-top: 20px;">← Volver al Panel de Admin</a>
+        </section>
+    </main>
+
+    <footer class="animate__animated animate__fadeInUp animate__delay-2s footer">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="{% static 'users/js/home.js' %}"></script>
+</body>
+</html>

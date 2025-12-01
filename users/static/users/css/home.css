@@ -1,0 +1,451 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 0; /* Eliminamos el espacio adicional en la parte superior */
+}
+
+main {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+header.menu {
+  background-color: #004080;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+header.menu h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+header.menu .logo {
+  width: 60px;
+  height: auto;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s ease;
+}
+
+header.menu .logo:hover {
+  transform: scale(1.1) rotate(2deg);
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+header nav ul li a {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+header nav ul li a:hover {
+  transform: scale(1.1);
+  color: #ffcc00;
+}
+
+footer {
+  background-color: #004080;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  margin-top: 40px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #2196F3;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 25px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  background-color: #1976D2;
+}
+
+.usuario-info, .gestion {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.usuario-info h2, .gestion h2 {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  header.menu h1 {
+      font-size: 1.8rem;
+  }
+
+  header.menu .logo {
+      width: 50px;
+  }
+
+  header nav ul {
+      flex-direction: column;
+  }
+
+  .btn {
+      width: 100%;
+      margin-bottom: 10px;
+  }
+}
+
+
+
+/* Estilos generales para el formulario */
+.form-home {
+  background-color: #f9f9f9;
+  padding: 40px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilo para cada campo de formulario */
+.form-home .form-group {
+  margin-bottom: 20px;
+}
+
+.form-home label {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+  font-weight: bold;
+}
+
+/* Estilos de los campos de entrada */
+.form-home input, .form-home select, .form-home textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.form-home input:focus, .form-home select:focus, .form-home textarea:focus {
+  border-color: #004080;
+  outline: none;
+}
+
+/* Estilo para los botones */
+.form-home button {
+  background-color: #004080;
+  color: white;
+  font-size: 1.1rem;
+  padding: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.form-home button:hover {
+  background-color: #0066cc;
+}
+
+/* Estilo para el texto de error (si existe) */
+.form-home .error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+/* Animaciones para el formulario */
+.form-home .form-group input,
+.form-home .form-group select,
+.form-home .form-group textarea {
+  opacity: 0;
+  animation: fadeInUp 0.5s forwards;
+}
+
+.form-home .form-group input:nth-child(1),
+.form-home button {
+  animation-delay: 0.2s;
+}
+
+.form-home .form-group input:nth-child(2),
+.form-home .form-group input:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Botón con animación */
+.form-home button:active {
+  transform: scale(0.98);
+}
+
+
+
+
+.edit-btn i {
+  color: #007bff;
+}
+
+.delete-btn i {
+  color: #dc3545;
+}
+
+
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  margin: 0 6px;
+  transition: transform 0.2s ease, color 0.3s ease;
+  color: #333;
+}
+
+.icon-btn:hover {
+  transform: scale(1.3);
+  color: #e63946;
+}
+
+.icon-btn:focus {
+  outline: none;
+}
+
+
+
+.pago-card {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+.pago-card:hover {
+  transform: scale(1.01);
+}
+
+
+.destinos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.destino-card {
+  width: 300px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.destino-card:hover {
+  transform: translateY(-5px);
+}
+
+.destino-card img {
+  width: 75%;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 0.8rem;
+  padding: 0.5rem 1.2rem;
+  background-color: #008cba;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #006f98;
+}
+
+.agotado {
+  color: red;
+  font-weight: bold;
+}
+
+
+
+.imagen-y-descripcion {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px; /* Espacio entre imagen y descripción */
+}
+
+.imagen-destino {
+  width: 50%; /* Ajusta el tamaño de la imagen */
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.descripcion {
+  width: 45%; /* Controlar el tamaño de la descripción */
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+
+#cantidad {
+  width: 80px; /* Ajusta el ancho a un tamaño más pequeño */
+  padding: 5px; /* Ajusta el espacio interno */
+  font-size: 14px; /* Tamaño de la fuente */
+  border-radius: 5px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde del input */
+}
+
+
+.icon-btn.danger {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.icon-btn.danger:hover {
+  background-color: #c0392b;
+}
+
+
+.btn i {
+  margin-right: 6px;
+}
+
+
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.nav-item a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-item i {
+  margin-right: 8px;
+}
+
+
+.icon-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+.icon-text {
+  max-width: 0;
+  opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: max-width 0.4s ease, opacity 0.3s ease;
+}
+
+.icon-link:hover .icon-text {
+  max-width: 150px; /* ajusta el tamaño máximo del texto desplegado */
+  opacity: 1;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin: 10px 0;
+}
+
+.icon-link i {
+  font-size: 1.2rem;
+  min-width: 24px;
+}

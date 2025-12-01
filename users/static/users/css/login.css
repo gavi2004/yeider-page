@@ -1,0 +1,42 @@
+/* Cargando (spin) */
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-spinner img {
+    width: 150px; /* Tamaño del gif de carga */
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+/* Animación para el gif */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Fondo semitransparente al hacer login */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Opacidad del fondo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Por encima de todo */
+    display: none; /* Oculto por defecto */
+}
+
+
+
+

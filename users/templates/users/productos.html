@@ -1,0 +1,29 @@
+<!-- productos.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>🛍️ Productos Disponibles</h1>
+        <div class="grid-productos">
+            {% for producto in productos %}
+                <div class="producto">
+                    <h3>{{ producto.nombre }}</h3>
+                    <p>Precio: ${{ producto.precio }}</p>
+                    <form method="POST" action="{% url 'agregar_carrito' producto.id %}">
+                        {% csrf_token %}
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" name="cantidad" value="1" min="1">
+                        <button type="submit" class="btn">Añadir al carrito</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'ver_carrito' %}" class="btn">Ver Carrito 🛒</a>
+    </div>
+</body>
+</html>

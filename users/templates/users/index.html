@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agencia de Viajes</title>
+
+    <!-- Estilos propios -->
+    <link rel="stylesheet" href="{% static 'users/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+</head>
+<body class="animate__animated animate__fadeIn">
+
+    <header class="menu animate__animated animate__fadeInDown animate__delay-1s">
+        <h1 class="animate__animated animate__bounceInDown">Agencia de Viajes</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-2s" alt="Logo">
+        <nav class="animate__animated animate__fadeIn animate__delay-3s">
+            <ul>
+                <li class="animate__animated animate__fadeInLeft animate__delay-4s"><a href="{% url 'register' %}">Registro</a></li>
+                <li class="animate__animated animate__fadeInLeft animate__delay-4s"><a href="{% url 'login' %}">Inicio</a></li> 
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-container animate__animated animate__fadeInUp animate__delay-2s">
+        <div class="hero">
+            <div class="hero-content">
+                <h2 class="animate__animated animate__lightSpeedInLeft">Explora el Mundo</h2>
+                <p class="animate__animated animate__fadeIn animate__delay-1s">Descubre los destinos más increíbles con nosotros.</p>
+                <a href="{% url 'login' %}" class="btn animate__animated animate__heartBeat animate__infinite animate__slow">Reserva Ahora</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="destinos animate__animated animate__zoomIn animate__delay-3s">
+        <h2 class="animate__animated animate__bounce">Destinos Disponibles</h2>
+        <div class="destinos-container animate__animated animate__fadeInRightBig">
+            {% for destino in destinos %}
+                <div class="destino">
+                    <h3>{{ destino.nombre }}</h3>
+                    <p>{{ destino.descripcion }}</p>
+                    <img src="{{ destino.imagen.url }}" alt="{{ destino.nombre }}" class="destino-imagen">
+                    <a href="{% url 'detalle_destino' destino.id %}" class="btn">Ver más</a>
+                </div>
+            {% empty %}
+                <p>No hay destinos disponibles en este momento.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="trabaja-con-nosotros animate__animated animate__fadeInUpBig animate__delay-4s">
+        <h2 class="animate__animated animate__rubberBand">¿Quieres trabajar con nosotros?</h2>
+        <p class="animate__animated animate__fadeInDown animate__delay-1s">¡Únete a nuestro equipo y forma parte de la aventura!</p>
+        <a href="{% url 'register_aspirante' %}" class="btn animate__animated animate__pulse animate__infinite animate__slow">Postúlate aquí</a>
+    </section>
+
+    <footer class="animate__animated animate__fadeIn animate__delay-5s">
+        <p class="animate__animated animate__slideInUp">&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

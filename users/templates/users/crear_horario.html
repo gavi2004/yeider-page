@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Horario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+</head>
+<body>
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Crear Horario</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    {% if rol == 'admin' %}
+                        <a href="{% url 'home_admin' %}" class="icon-link">
+                    {% elif rol == 'empleado' %}
+                        <a href="{% url 'home_empleado' %}" class="icon-link">
+                    {% else %}
+                        <a href="#" class="icon-link"> 
+                    {% endif %}
+                        <i class="fas fa-house"></i>
+                        <span class="icon-text">Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'list_destinos' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Gestionar Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'listar_horarios' %}" class="icon-link">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span class="icon-text">Gestionar Horarios</span>
+                    </a>
+                </li>
+                {% if rol == 'admin' %}
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s"> 
+                    <a href="{% url 'list_users' %}" class="icon-link">
+                        <i class="fa-solid fa-users-gear"></i>
+                        <span class="icon-text">Manejo de Usuarios</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-5s">
+                    <a href="{% url 'logout' %}" class="icon-link">
+                        <i class="fas fa-door-closed"></i>
+                        <span class="icon-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        <section class="formulario-registro fade-in">
+            <div class="form-container">
+                <h2 class="animate__animated animate__fadeIn">Nuevo Horario</h2>
+
+                <form method="POST" class="form-home">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="form-error">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn">Guardar horario</button>
+                </form>
+
+                <a href="{% url 'home_admin' %}" class="btn">Volver</a>
+                <a href="{% url 'listar_horarios' %}" class="btn">Lista de Horarios</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-login animate__animated animate__fadeInUp animate__delay-2s">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

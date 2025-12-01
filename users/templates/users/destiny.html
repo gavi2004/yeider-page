@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Destinos Populares</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Estilos del template original -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+</head>
+<body>
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Destinos Disponibles</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <a href="{% url 'home_cliente' %}" class="icon-link">
+                        <i class="fas fa-house"></i>
+                        <span class="icon-text">Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'destiny' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'enviar_paquete' %}" class="icon-link">
+                        <i class="fas fa-box"></i>
+                        <span class="icon-text">Paquetes</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s">
+                    <a href="{% url 'ver_carrito' %}" class="icon-link">
+                        <i class="fas fa-cart-shopping"></i>
+                        <span class="icon-text">Carrito</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-5s">
+                    <a href="{% url 'mis_boletos' %}" class="icon-link">
+                        <i class="fa-solid fa-ticket"></i>
+                        <span class="icon-text">Mis Boletos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-6s">
+                    <a href="{% url 'logout' %}" class="icon-link">
+                        <i class="fas fa-door-closed"></i>
+                        <span class="icon-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        <section class="formulario-registro fade-in">
+            <div class="form-container">
+                <h2 class="animate__animated animate__fadeIn">Destinos Disponibles</h2>
+
+                <div class="destinos-container">
+                    {% for destino in destinos %}
+                        <div class="destino-card animate__animated animate__fadeInUp">
+                            {% if destino.imagen %}
+                                <img src="{{ destino.imagen.url }}" alt="Imagen de {{ destino.nombre }}">
+                            {% else %}
+                                <img src="{% static 'users/imagenes/default.jpg' %}" alt="Imagen por defecto">
+                            {% endif %}
+                            <h3>{{ destino.nombre }}</h3>
+                          
+                            <p><strong>Transporte:</strong> {{ destino.get_transporte_display }}</p>
+                            <p><strong>Boletos disponibles:</strong> {{ destino.boletos_disponibles }}</p>
+
+                            {% if destino.boletos_disponibles > 0 %}
+                                <a href="{% url 'detalle_destino' destino.id %}" class="btn">Ver detalle</a>
+                            {% else %}
+                                <p class="agotado">No disponible</p>
+                            {% endif %}
+                        </div>
+                    {% empty %}
+                        <p>No hay destinos disponibles en este momento.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-login animate__animated animate__fadeInUp animate__delay-2s">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

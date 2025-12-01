@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Destinos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+
+
+</head>
+<body>
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Gestion De Destinos</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <ul class="nav-list animate__animated animate__fadeInDown">
+                    <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                        {% if rol == 'admin' %}
+                            <a href="{% url 'home_admin' %}" class="icon-link">
+                        {% elif rol == 'empleado' %}
+                            <a href="{% url 'home_empleado' %}" class="icon-link">
+                        {% else %}
+                            <a href="#" class="icon-link"> <!-- Redirección por defecto o inválida -->
+                        {% endif %}
+                            <i class="fas fa-house"></i>
+                            <span class="icon-text">Inicio</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'list_destinos' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Gestionar Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'listar_horarios' %}" class="icon-link">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span class="icon-text">Gestionar Horarios</span>
+                    </a>
+                </li>
+                {% if rol == 'admin' %}
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s"> 
+                    <a href="{% url 'list_users' %}" class="icon-link">
+                        <i class="fa-solid fa-users-gear"></i>
+                        <span class="icon-text">Manejo de Usuarios</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-5s">
+                    <a href="{% url 'logout' %}" class="icon-link">
+                        <i class="fas fa-door-closed"></i>
+                        <span class="icon-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        <section class="formulario-registro fade-in">
+            <div class="form-container">
+                <h2 class="animate__animated animate__fadeIn">Lista de Destinos</h2>
+
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Transporte</th>
+                            <th>Boletos Disponibles</th>
+                            <th>Precios</th>
+                            <th>Imagen</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for destino in destinos %}
+                        <tr>
+                            <td>{{ destino.nombre }}</td>
+                            <td>{{ destino.descripcion }}</td>
+                            <td>{{ destino.get_transporte_display }}</td>
+                            <td>{{ destino.boletos_disponibles }}</td>
+                            <td>{{ destino.precio }}</td>
+                            <td>
+                                {% if destino.imagen %}
+                                    <img src="{{ destino.imagen.url }}" alt="Imagen de {{ destino.nombre }}" style="width: 150px; height: auto; border-radius: 8px;">
+                                {% else %}
+                                    <p>No hay imagen</p>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'editar_destino' destino.pk %}" class="icon-btn animate__animated animate__fadeInLeft" title="Editar">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <form action="{% url 'eliminar_destino' destino.pk %}" method="POST" style="display:inline;" onsubmit="return confirmarEliminacion('{{ destino.nombre }}')">
+                                    {% csrf_token %}
+                                    <button type="submit" class="icon-btn animate__animated animate__fadeInRight" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6">No hay destinos registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <a href="{% url 'crear_destino' %}" class="btn">Crear Nuevo Destino</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-login animate__animated animate__fadeInUp animate__delay-2s">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+    
+    <script src="{% static 'users/js/confirm_delete_destiny.js' %}"></script>
+
+
+</body>
+</html>

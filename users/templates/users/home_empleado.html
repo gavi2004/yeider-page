@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Empleado</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+</head>
+<body class="animate__animated animate__fadeIn">
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Panel Del Empleado</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <a href="{% url 'home_empleado' %}" class="icon-link">
+                        <i class="fas fa-house"></i>
+                        <span class="icon-text">Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'list_destinos' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Gestionar Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'listar_horarios' %}" class="icon-link">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span class="icon-text">Gestionar Horarios</span>
+                    </a>
+                </li>
+                    <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s">
+                        <a href="{% url 'logout' %}" class="icon-link">
+                            <i class="fas fa-door-closed"></i>
+                            <span class="icon-text">Cerrar Sesión</span>
+                        </a>
+                    </li>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenido animate__animated animate__fadeInUp">
+        <section class="usuario-info animate__animated animate__fadeInLeft">
+            <h2>Bienvenido, {{ usuario_actual.nombre }}</h2>
+            <p>Email: {{ usuario_actual.email }}</p>
+            <p>Rol: {{ usuario_actual.rol }}</p>
+        </section>
+
+        <section class="gestion animate__animated animate__fadeInRight animate__delay-1s">
+            <h2>Gestión de destinos</h2>
+            <a href="{% url 'crear_destino' %}" class="btn">Crear Destino</a>
+            <a href="{% url 'list_destinos' %}" class="btn">Ver lista de destinos</a>
+        
+            <h2>Gestión de horarios</h2>
+            <a href="{% url 'crear_horario' %}" class="btn">Crear nuevo horario</a>
+            <a href="{% url 'listar_horarios' %}" class="btn">Ver lista de horarios</a>
+               
+        
+        
+            
+        </section>
+        
+    </main>
+
+   
+
+    <footer class="animate__animated animate__fadeInUp animate__delay-2s footer">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+    
+
+    <script src="{% static 'users/js/home.js' %}"></script>
+
+</body>
+</html>

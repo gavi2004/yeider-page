@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva York, USA</title>
+    <link rel="stylesheet" href="{% static 'users/css/destiny.css' %}">
+</head>
+<body>
+    <section class="contenido">
+        <h2>Nueva York, USA</h2>
+        <div class="destino">
+            <img src="{% static 'users/imagenes/new-york.jpg' %}" alt="Nueva York">
+            <h3>Nueva York, USA</h3>
+            <p>La ciudad que nunca duerme.</p>
+        </div>
+        <div class="volver-home">
+            <a href="{% url 'home_cliente' %}">← Volver a Inicio</a>
+        </div>
+    </section>
+</body>
+</html>

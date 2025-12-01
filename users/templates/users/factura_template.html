@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura #{{ venta.id }}</title>
+    <link rel="stylesheet" href="{% static 'users/css/facturita.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .factura-box {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 30px;
+        }
+        .factura-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .factura-header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .empresa-info, .factura-info {
+            font-size: 14px;
+        }
+        .datos-factura {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .datos-factura div {
+            width: 48%;
+        }
+        .tabla-productos {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .tabla-productos th, .tabla-productos td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .tabla-productos th {
+            background-color: #f4f4f4;
+            text-align: left;
+        }
+        .totales {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .totales td {
+            padding: 5px 10px;
+        }
+        .factura-footer {
+            margin-top: 40px;
+            font-size: 12px;
+            border-top: 1px solid #999;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="factura-box">
+        <!-- Cabecera -->
+        <div class="factura-header">
+            <div class="empresa-info">
+                <h1>Peña Travel</h1>
+                <p>Barrio Obrero San Cristobal, Av Carabobo</p>
+                <p>Táchira, Venezuela</p>
+            </div>
+            <div class="factura-info">
+                <p><strong>Factura N.º:</strong> {{ venta.id }}</p>
+                <p><strong>Fecha:</strong> {{ venta.fecha_compra|date:"d/m/Y" }}</p>
+            </div>
+        </div>
+
+        <div class="datos-factura">
+            <div class="datos-cliente">
+                <h3>FACTURAR A</h3>
+                <p>{{ cliente.nombre }}</p>
+                <p>Cédula: {{ cliente.cedula }}</p>
+                <p>{{ cliente.email }}</p>
+            </div>
+        
+            {% if tipo_venta != 'boletos' %}
+                <div class="datos-envio">
+                    <h3>ENVIAR A</h3>
+                    <p>{{ paquete.receptor.nombre }}</p> <!-- Asegúrate de que 'paquete' esté definido si accedes a él -->
+                </div>
+            {% endif %}
+        </div>
+        
+
+        <!-- Productos o servicios -->
+        <table class="tabla-productos">
+            <thead>
+                <tr>
+                    <th>Cant.</th>
+                    <th>Descripción</th>
+                    <th>Precio Unitario</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.cantidad }}</td>
+                    <td>
+                        {{ item.descripcion }}<br>
+                        <small>{{ item.detalle }}</small>
+                    </td>
+                    <td>${{ item.precio }}</td>
+                    <td>${{ item.precio }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Totales -->
+        <div class="totales">
+            <table style="float: right;">
+                <tr>
+                    <td><strong>Subtotal:</strong></td>
+                    <td>${{ total }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Total:</strong></td>
+                    <td><strong>${{ total }}</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Pie de página -->
+        <div class="factura-footer">
+            <p><strong>Condiciones y Forma de Pago:</strong></p>
+            <p>El pago se realizó mediante Pago Móvil.</p>
+            <p>Banco de Venezuela | IBAN: VE1234567890123456789012</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Paquetes</title>
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/ventas.css' %}">
+</head>
+<body class="animate__animated animate__fadeIn">
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Mis Paquetes</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul class="nav-list animate__animated animate__fadeInDown">
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-1s">
+                    <a href="{% url 'home_cliente' %}" class="icon-link">
+                        <i class="fas fa-house"></i>
+                        <span class="icon-text">Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-2s">
+                    <a href="{% url 'destiny' %}" class="icon-link">
+                        <i class="fas fa-plane-departure"></i>
+                        <span class="icon-text">Destinos</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-3s">
+                    <a href="{% url 'enviar_paquete' %}" class="icon-link">
+                        <i class="fas fa-box"></i>
+                        <span class="icon-text">Paquetes</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-4s">
+                    <a href="{% url 'ver_carrito' %}" class="icon-link">
+                        <i class="fas fa-cart-shopping"></i>
+                        <span class="icon-text">Carrito</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-5s">
+                    <a href="{% url 'mis_paquetes' %}" class="icon-link">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span class="icon-text">Mis Paquetes</span>
+                    </a>
+                </li>
+                <li class="nav-item animate__animated animate__fadeInLeft animate__delay-6s">
+                    <a href="{% url 'logout' %}" class="icon-link">
+                        <i class="fas fa-door-closed"></i>
+                        <span class="icon-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenido animate__animated animate__fadeInUp">
+        <h2>Mis Paquetes</h2>
+
+        <div class="tabla-contenedor animate__animated animate__fadeIn">
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th>Tipo de Paquete</th>
+                        <th>Estado</th>
+                        <th>Precio de Envío</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in resumen %}
+                    <tr>
+                        <td>
+                            {% if item.tipo == 'electronica' %}
+                                Electrónica
+                            {% elif item.tipo == 'ropa' %}
+                                Ropa
+                            {% elif item.tipo == 'maquinaria' %}
+                                Maquinaria
+                            {% elif item.tipo == 'otros' %}
+                                Otros
+                            {% else %}
+                                {{ item.tipo }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.estado == 'vendido' %}
+                                Vendido
+                            {% elif item.estado == 'carrito' %}
+                                En carrito
+                            {% else %}
+                                {{ item.estado }}
+                            {% endif %}
+                        </td>
+                        <td>${{ item.precio_envio }}</td>
+                        <td>{{ item.cantidad }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="mensaje-info">No tienes paquetes aún.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="footer animate__animated animate__fadeInUp animate__delay-2s">
+        <p>&copy; 2025 Agencia de Envíos. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="{% static 'users/js/home.js' %}"></script>
+</body>
+</html>

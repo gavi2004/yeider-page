@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Destino</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{% static 'users/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/animate.css' %}">
+    <link rel="shortcut icon" href="{% static 'users/imagenes/logazo.png' %}">
+    <link rel="stylesheet" href="{% static 'users/fontawesome/css/all.min.css' %}">
+
+</head>
+<body>
+
+    <header class="menu animate__animated animate__fadeInDown">
+        <h1 class="animate__animated animate__bounceInDown">Gestión de Destinos</h1>
+        <img src="{% static 'users/imagenes/logazo.png' %}" class="logo animate__animated animate__zoomIn animate__delay-1s" alt="Logo">
+        <nav>
+            <ul>
+                <li><a href="{% url 'home_admin' %}">Inicio</a></li>
+                <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        <section class="formulario-registro fade-in">
+            <div class="form-container">
+                <h2 class="animate__animated animate__fadeIn">Editar Destino: {{ destino.nombre }}</h2>
+                <form method="POST" enctype="multipart/form-data" class="form-home">  <!-- No olvides agregar enctype -->
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="id_nombre">Nombre</label>
+                        {{ form.nombre }}
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="id_descripcion">Descripción</label>
+                        {{ form.descripcion }}
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="id_transporte">Transporte</label>
+                        {{ form.transporte }}
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="id_boletos_disponibles">Boletos Disponibles</label>
+                        {{ form.boletos_disponibles }}
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="id_imagen">Imagen</label>
+                        {{ form.imagen }}
+                        {% if destino.imagen %}
+                            <p>Imagen actual:</p>
+                            <img src="{{ destino.imagen.url }}" alt="Imagen de {{ destino.nombre }}" style="width: 150px; height: auto; border-radius: 8px;">
+                        {% endif %}
+                    </div>
+                
+                    <button type="submit" class="btn">{{ accion }}</button>
+                </form>
+                
+               
+
+                <a href="{% url 'list_destinos' %}" class="btn">Cancelar</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-login animate__animated animate__fadeInUp animate__delay-2s">
+        <p>&copy; 2025 Agencia de Viajes. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

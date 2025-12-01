@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Medellín, Colombia</title>
+    <link rel="stylesheet" href="{% static 'users/css/destiny.css' %}">
+</head>
+<body>
+    <section class="contenido">
+        <h2>Medellín, Colombia</h2>
+        <div class="destino">
+            <img src="{% static 'users/imagenes/colombia.jpg' %}" alt="Medellín">
+            <h3>Medellín, Colombia</h3>
+            <p>Lo mismo que Venezuela, más caro.</p>
+        </div>
+        <div class="volver-home">
+            <a href="{% url 'home_cliente' %}">← Volver a Inicio</a>
+        </div>
+    </section>
+</body>
+</html>

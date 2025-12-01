@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Caracas, Venezuela</title>
+    <link rel="stylesheet" href="{% static 'users/css/destiny.css' %}">
+</head>
+<body>
+    <section class="contenido">
+        <h2>Caracas, Venezuela</h2>
+        <div class="destino">
+            <img src="{% static 'users/imagenes/venezuela.jpg' %}" alt="Caracas">
+            <h3>Caracas, Venezuela</h3>
+            <p>Monte y culebra.</p>
+        </div>
+        <div class="volver-home">
+            <a href="{% url 'home_cliente' %}">← Volver a Inicio</a>
+        </div>
+    </section>
+</body>
+</html>
