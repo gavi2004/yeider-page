@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: gunicorn proyecto.wsgi:application --bind 0.0.0.0:8000 --timeout 120 --workers 3 --preload
+    command: gunicorn proyecto.wsgi:application --bind 0.0.0.0:1776 --timeout 120 --workers 3 --preload
     environment:
       DJANGO_SECRET_KEY: change-me
       DJANGO_DEBUG: "False"
@@ -34,7 +34,7 @@ services:
       - static_data:/app/staticfiles
       - media_data:/app/media
     ports:
-      - "8000:8000"
+      - "1776:1776"
     depends_on:
       db:
         condition: service_healthy
